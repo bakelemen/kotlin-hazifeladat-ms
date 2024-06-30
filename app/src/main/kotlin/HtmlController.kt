@@ -11,11 +11,11 @@ class HtmlController(val tempService: TempService) {
     @GetMapping("/")
     fun blog(model: Model): String {
         model["title"] = "Napi középhőmérséklet"
-        val temp = tempService.getTemp()
-        model["temp"] = temp.calculateMidTemp()
-        model["lat"] = temp.latitude
-        model["lng"] = temp.longitude
-        model["unit"] = temp.hourly_units.temperature_2m
+        val response = tempService.getDeserializedResponse()
+        model["temp"] = tempService.calculateMidTemp(response)
+        model["lat"] = response?.latitude
+        model["lng"] = response?.longitude
+        model["unit"] = response?.hourly_units?.temperature_2m
         return "midtemp"
     }
 
